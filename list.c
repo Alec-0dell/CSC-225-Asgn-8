@@ -5,6 +5,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "list.h"
 
 /* lstcreate: Creates an empty linked list. */
@@ -105,14 +106,14 @@ int lstadd(List *lst, unsigned int idx, void *data)
      * necessary; return 0 on success, 1 if "idx" outside bounds [0, size]. */
     Node *curNode = lst->head;
     Node *prevNode = NULL;
+    Node *nd = (Node *)malloc(sizeof(Node));
+    nd->data = data;
     if (idx > lst->size)
     {
         return 1;
     }
     if (idx == 0)
     {
-        Node *nd = (Node *)malloc(sizeof(Node));
-        nd->data = data;
         nd->next = lst->head;
         lst->head = nd;
         lst->size++;
@@ -126,8 +127,6 @@ int lstadd(List *lst, unsigned int idx, void *data)
     }
     if (idx == 0)
     {
-        Node *nd = (Node *)malloc(sizeof(Node));
-        nd->data = data;
         nd->next = curNode;
         prevNode->next = nd;
         lst->size++;
@@ -146,14 +145,15 @@ void *lstremove(List *lst, unsigned int idx)
      * necessary; return a pointer to the removed element, NULL if "idx"
      * outside bounds [0, size - 1]. */
     Node *curNode = lst->head;
-    Node *temp, *ret;
+    Node *temp;
+    void *ret;
     if (lst->head == NULL || idx >= lst->size)
     {
         return NULL;
     }
     if (idx == 0)
     {
-        ret = lst->head;
+        ret = lst->head->data;
         lst->head = lst->head->next;
         lst->size--;
         return ret;
@@ -166,7 +166,7 @@ void *lstremove(List *lst, unsigned int idx)
     if (curNode->next != NULL)
     {
         temp = curNode->next->next;
-        ret = curNode->next;
+        ret = curNode->next->data;
         curNode->next = temp;
         lst->size--;
         return ret;
@@ -181,32 +181,25 @@ List *lstreverse(List *lst)
      *  lst  - A pointer to a List structure
      * ...return a pointer to a new, dynamically allocated List structure
      * containing the elements of "lst" in reverse order. */
-    Node *prevNode = lst->head;
-    Node *curNode, *nextNode;
-    if (prevNode == NULL)
-    {
-        return NULL;
+    Node *curNode, *newnd;
+    int lstidx = lst->size - 1;
+    List *ret = (List *)malloc(sizeof(List));
+    if (lst == NULL || lst->head == NULL){
+        ret->head = NULL;
+        ret->size = 0;
+        return ret;
+    } else {
+        curNode = (Node *)malloc(sizeof(Node));
+        curNode->data = lstget(lst, lstidx);
+        ret->head = curNode;
+        lstidx--;
     }
-    if (prevNode->next == NULL)
-    {
-        return lst;
+    while(lstidx >= 0){
+        newnd = (Node *)malloc(sizeof(Node));
+        newnd->data = lstget(lst, lstidx);
+        curNode->next = newnd;
+        curNode = newnd;
+        lstidx--;
     }
-    curNode = prevNode->next;
-    nextNode = curNode->next;
-    prevNode->next = NULL;
-    while (1)
-    {
-        curNode->next = prevNode;
-        if (nextNode == NULL)
-        {
-            lst->head = curNode;
-            return lst;
-        }
-        else
-        {
-            prevNode = curNode;
-            curNode = nextNode;
-            nextNode = nextNode->next;
-        }
-    }
+    return ret;
 }
