@@ -17,7 +17,7 @@ typedef struct List {
     unsigned int size;
 } List;
 
-List *lstcreate();
+List *lstcreate(void);
 void lstdestroy(List *);
 unsigned int lstsize(List *);
 void *lstget(List *, unsigned int);
