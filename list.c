@@ -32,6 +32,7 @@ void lstdestroy(List *lst)
         lst->head = lst->head->next;
         free(curNode);
     }
+    free(lst);
 }
 
 /* lstsize: Computes the size of a linked list. */
@@ -193,6 +194,7 @@ List *lstreverse(List *lst)
         curNode->data = lstget(lst, lstidx);
         ret->head = curNode;
         lstidx--;
+        ret->size = lst->size;
     }
     while(lstidx >= 0){
         newnd = (Node *)malloc(sizeof(Node));
@@ -201,5 +203,6 @@ List *lstreverse(List *lst)
         curNode = newnd;
         lstidx--;
     }
+    lstdestroy(lst);
     return ret;
 }
