@@ -204,6 +204,5 @@ List *lstreverse(List *lst)
         curNode = newnd;
         lstidx--;
     }
-    lstdestroy(lst);
     return ret;
 }

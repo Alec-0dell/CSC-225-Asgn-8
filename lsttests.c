@@ -15,9 +15,11 @@ void test03remove(void);
 void test04get(void);
 void test05set(void);
 void test06reverse(void);
+void test07reverse(void);
 
 /* test01empty: Tests empty lists. */
-void test01empty(void) {
+void test01empty(void)
+{
     List *lst = lstcreate();
 
     assert(lst != NULL);
@@ -28,7 +30,8 @@ void test01empty(void) {
 }
 
 /* test02add: Tests adding to lists. */
-void test02add(void) {
+void test02add(void)
+{
     List *lst = lstcreate();
     int data1 = 1, data2 = 2;
 
@@ -45,7 +48,8 @@ void test02add(void) {
 }
 
 /* test03remove: Tests removing from lists. */
-void test03remove(void) {
+void test03remove(void)
+{
     List *lst = lstcreate();
     int data1 = 1, data2 = 2;
 
@@ -62,22 +66,24 @@ void test03remove(void) {
 }
 
 /* test04get: Tests getting elements from lists. */
-void test04get(void) {
+void test04get(void)
+{
     List *lst = lstcreate();
     int data1 = 1, data2 = 2;
 
     lstadd(lst, 0, &data1);
     lstadd(lst, 1, &data2);
 
-    assert(*(int*)lstget(lst, 0) == data1);
-    assert(*(int*)lstget(lst, 1) == data2);
+    assert(*(int *)lstget(lst, 0) == data1);
+    assert(*(int *)lstget(lst, 1) == data2);
     assert(lstget(lst, 2) == NULL);
 
     lstdestroy(lst);
 }
 
 /* test05set: Tests setting elements in lists. */
-void test05set(void) {
+void test05set(void)
+{
     List *lst = lstcreate();
     int data1 = 1, data2 = 2, newData = 3;
 
@@ -85,14 +91,15 @@ void test05set(void) {
     lstadd(lst, 1, &data2);
 
     assert(lstset(lst, 1, &newData) == 0);
-    assert(*(int*)lstget(lst, 1) == newData);
+    assert(*(int *)lstget(lst, 1) == newData);
     assert(lstset(lst, 2, &newData) == 1);
 
     lstdestroy(lst);
 }
 
 /* test06reverse: Tests reversing the list. */
-void test06reverse(void) {
+void test06reverse(void)
+{
     List *lst = lstcreate();
     List *reversed;
     int data1 = 1, data2 = 2, data3 = 3, data4 = 4, data5 = 5;
@@ -106,24 +113,44 @@ void test06reverse(void) {
     reversed = lstreverse(lst);
 
     assert(reversed != NULL);
-    assert(*(int*)lstget(reversed, 0) == data5);
-    assert(*(int*)lstget(reversed, 1) == data4);
-    assert(*(int*)lstget(reversed, 2) == data3);
-    assert(*(int*)lstget(reversed, 3) == data2);
-    assert(*(int*)lstget(reversed, 4) == data1);
-    assert(lstsize(lst) == 5);
+    assert(*(int *)lstget(reversed, 0) == data5);
+    assert(*(int *)lstget(reversed, 1) == data4);
+    assert(*(int *)lstget(reversed, 2) == data3);
+    assert(*(int *)lstget(reversed, 3) == data2);
+    assert(*(int *)lstget(reversed, 4) == data1);
+    assert(lstsize(reversed) == 5);
 
     lstdestroy(lst);
     lstdestroy(reversed);
 }
 
-int main(void) {
+void test07reverse(void)
+{
+    List *lst = lstcreate();
+    List *reversed;
+    int data1 = 1;
+
+    lstadd(lst, 0, &data1);
+
+    reversed = lstreverse(lst);
+
+    assert(reversed != NULL);
+    assert(*(int *)lstget(reversed, 0) == data1);
+    assert(lstsize(reversed) == 1);
+
+    lstdestroy(lst);
+    lstdestroy(reversed);
+}
+
+int main(void)
+{
     test01empty();
     test02add();
     test03remove();
     test04get();
     test05set();
     test06reverse();
+    test07reverse();
 
     return 0;
 }
