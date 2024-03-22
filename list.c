@@ -32,7 +32,6 @@ void lstdestroy(List *lst)
         lst->head = lst->head->next;
         free(curNode);
     }
-    free(lst);
 }
 
 /* lstsize: Computes the size of a linked list. */
@@ -182,7 +181,7 @@ List *lstreverse(List *lst)
      *  lst  - A pointer to a List structure
      * ...return a pointer to a new, dynamically allocated List structure
      * containing the elements of "lst" in reverse order. */
-    Node *curNode, *newnd;
+    Node *curNode, *newnd = NULL;
     int lstidx = lst->size - 1;
     List *ret = (List *)malloc(sizeof(List));
     if (lst == NULL || lst->head == NULL){
@@ -192,6 +191,7 @@ List *lstreverse(List *lst)
     } else {
         curNode = (Node *)malloc(sizeof(Node));
         curNode->data = lstget(lst, lstidx);
+        curNode->next = NULL;
         ret->head = curNode;
         lstidx--;
         ret->size = lst->size;
@@ -199,6 +199,7 @@ List *lstreverse(List *lst)
     while(lstidx >= 0){
         newnd = (Node *)malloc(sizeof(Node));
         newnd->data = lstget(lst, lstidx);
+        newnd->next = NULL;
         curNode->next = newnd;
         curNode = newnd;
         lstidx--;

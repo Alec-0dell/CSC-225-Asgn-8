@@ -95,16 +95,23 @@ void test05set(void) {
 void test06reverse(void) {
     List *lst = lstcreate();
     List *reversed;
-    int data1 = 1, data2 = 2;
+    int data1 = 1, data2 = 2, data3 = 3, data4 = 4, data5 = 5;
 
     lstadd(lst, 0, &data1);
     lstadd(lst, 1, &data2);
+    lstadd(lst, 2, &data3);
+    lstadd(lst, 3, &data4);
+    lstadd(lst, 4, &data5);
 
     reversed = lstreverse(lst);
 
     assert(reversed != NULL);
-    assert(*(int*)lstget(reversed, 0) == data2);
-    assert(*(int*)lstget(reversed, 1) == data1);
+    assert(*(int*)lstget(reversed, 0) == data5);
+    assert(*(int*)lstget(reversed, 1) == data4);
+    assert(*(int*)lstget(reversed, 2) == data3);
+    assert(*(int*)lstget(reversed, 3) == data2);
+    assert(*(int*)lstget(reversed, 4) == data1);
+    assert(lstsize(lst) == 5);
 
     lstdestroy(lst);
     lstdestroy(reversed);
