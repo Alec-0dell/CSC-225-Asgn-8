@@ -32,7 +32,6 @@ void lstdestroy(List *lst)
         lst->head = lst->head->next;
         free(curNode);
     }
-    free(lst);
 }
 
 /* lstsize: Computes the size of a linked list. */
